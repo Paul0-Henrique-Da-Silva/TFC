@@ -23,9 +23,12 @@ module.exports = {
       password: {
         type: Sequelize.STRING,
         allowNull: false,
-      },
+      }
+    }, {
+      timestamp: false,
     });
   },
+
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('users');
   }
