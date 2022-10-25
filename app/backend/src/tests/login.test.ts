@@ -16,26 +16,68 @@ const { expect } = chai;
 
 // mock
 const validoUser = {
-  email: 'benignotatto@gmail.com',
+  email: 'ph46163835@gmail.com',
   password: bcrypt.hashSync('Alg-Cost-Salt-Hash'),
 };
 
-    describe('', () => {
-      beforeEach(() => {
-        sinon.stub(UserModel, 'findOne').resolves(validoUser as UserModel)
-      });
 
-      afterEach(() => {
-        (UserModel.findOne as sinon.SinonStub).restore();
-      });
-
-      it('"POST/login" token JWT com status 200', async () => {
-        const response = await chai.request(app)
-        .post('/login').send({
-          email: 'emailTudoCertor@gmail.com',
-          password: 'Alg-Cost-Salt-Hash'
-        })
-        expect(response.body).to.have.property('token');
-        expect(response.status).to.be.equal(200);
-      });
+describe('', () => {
+  it('"POST/login" Sem a senha, mensagem de erro com status 400', async () => {
+    const response = await chai.request(app).post('/login')
+    .send({
+      email: 'any_email@gmail.com',
+      password: ''
     });
+    expect(response.body).to.be.deep.equal({ message: 'All fields must be filled' });
+    expect(response.status).to.be.equal(400);
+  });
+});
+
+describe('', () => {
+  it('"POST/login" Sem o email, mensagem de erro com status 400', async () => {
+    const response = await chai.request(app).post('/login')
+    .send({
+        email: '',
+        password: 'password_invalid'
+      });
+    expect(response.body).to.be.deep.equal({ message: 'All fields must be filled' });
+    expect(response.status).to.be.equal(400);
+  });
+});
+
+describe('', () => { 
+  beforeEach(() => {
+    sinon.stub(UserModel, 'findOne').resolves(validoUser as UserModel)
+  });
+  afterEach(() => {(UserModel.findOne as sinon.SinonStub).restore()});
+  
+  it('"POST/login" token JWT com status 200', async () => {
+    const response = await chai.request(app)
+    .post('/login').send({
+      email: 'benignotatto@gmail.com',
+      password: 'Alg-Cost-Salt-Hash'
+    })
+    expect(response.body).to.have.property('token');
+    expect(response.status).to.be.equal(200);
+  })
+})
+
+    
+describe('', () => {
+  beforeEach(() => {
+    sinon.stub(UserModel, 'findOne').resolves(null as unknown as UserModel);
+  });
+  afterEach(() => { (UserModel.findOne as sinon.SinonStub).restore()});
+
+  it('"POST/login", Usuario inválido, mensagem de erro com status 401', async () => {
+    const response = await chai.request(app).post('/login')
+    .send({
+      email: 'email_invalid@gmail.com',
+      password: 'password_invalid'
+    });
+    expect(response.status).to.be.equal(401);
+  });
+
+});
+
+    
