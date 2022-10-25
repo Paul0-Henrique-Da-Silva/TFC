@@ -9,6 +9,7 @@ import * as bcrypt from 'bcryptjs';
 // minha referencias em base de outro projetos..
 // https://github.com/Paul0-Henrique-Da-Silva/node-api
 // https://github.com/Paul0-Henrique-Da-Silva/ideas
+// https://github.com/Paul0-Henrique-Da-Silva/auth_jwt/blob/main/app.js
 
 
 chai.use(chaiHttp);
@@ -51,7 +52,7 @@ describe('', () => {
   });
   afterEach(() => {(UserModel.findOne as sinon.SinonStub).restore()});
   
-  it('"POST/login" token JWT com status 200', async () => {
+  it('"POST/login" Token JWT com status 200', async () => {
     const response = await chai.request(app)
     .post('/login').send({
       email: 'benignotatto@gmail.com',

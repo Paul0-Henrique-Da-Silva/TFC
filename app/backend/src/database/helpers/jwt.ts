@@ -1,11 +1,12 @@
 import * as Jwt from 'jsonwebtoken';
-import { JWT_SECRET } from '.';
 import { IUser } from '../interfaces/IUser';
+
+const SECRET = process.env.JWT_SECRET;
 
 const jwt = (user: IUser) => {
   const token = Jwt.sign(
     { userId: user.id },
-    JWT_SECRET,
+    SECRET as string,
     { algorithm: 'HS256', expiresIn: '3600' },
   );
 
