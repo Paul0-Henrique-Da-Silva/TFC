@@ -26,13 +26,11 @@ class Validation {
     if (error) return response.status(400).json({ message: error.message });
 
     const user = await this.model.findOne({ where: { email }, raw: true }) as IUser;
-
     if (!user) {
       return response.status(401)
         .json({ message: 'Incorrect email or password' });
     }
     const token = await this.userService.login(email, password);
-
     if (!token) {
       return response.status(401)
         .json({ message: 'Need a token!' });
