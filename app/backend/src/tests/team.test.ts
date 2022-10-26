@@ -14,18 +14,34 @@ const teams = [
     { id: 2, teamName: 'Bahia'},
     { id: 3, teamName: 'Botafogo'},
   ]
+const teamId = { id: 2, teamName: 'Bahia'};
 
-    describe('', () => {
-      beforeEach(() => {
-        sinon.stub(TeamModel, 'findAll').resolves(teams as TeamModel[])
-      });
-      afterEach(() => {
-        (TeamModel.findAll as sinon.SinonStub).restore()});
+describe('', () => {
+  beforeEach(() => {
+    sinon.stub(TeamModel, 'findAll').resolves(teams as TeamModel[])
+  });
+  afterEach(() => {(TeamModel.findAll as sinon.SinonStub).restore()});
 
-      it('"GET /teams:" retorna todos teams com o status 200', async () => {
-        const response = await chai.request(app).get('/teams');
+  it('"GET /teams:" retorna todos teams com o status 200', async () => {
+    const response = await chai.request(app).get('/teams');
 
-        expect(response.body).to.be.deep.equal(teams);
-        expect(response.status).to.be.equal(200);
-      });
-    });
+    expect(response.body).to.be.deep.equal(teams);
+    expect(response.status).to.be.equal(200);
+  });  
+});
+
+describe('', () => {
+  beforeEach(() => {
+    sinon.stub(TeamModel, 'findOne').resolves(teamId as unknown as TeamModel)
+  });
+
+  afterEach(() => {(TeamModel.findOne as sinon.SinonStub).restore()});
+
+  it('"GET /teams/:id" retorna param "id" com status 200', async () => {
+    const response = await chai.request(app).get('/teams/2');
+
+    expect(response.body).to.be.deep.equal(teamId);
+    expect(response.status).to.be.equal(200);
+  });
+});
+
