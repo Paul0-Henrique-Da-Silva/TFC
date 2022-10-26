@@ -94,17 +94,15 @@ describe('', () => {
 
 });
 
-describe('When it receives a valid token', () => {
+describe('', () => {
   beforeEach(() => {
     sinon.stub(UserModel, 'findOne').resolves(simpleUser as UserModel)
   });
+  afterEach(() => { (UserModel.findOne as sinon.SinonStub).restore()});
 
-  afterEach(() => {
-    (UserModel.findOne as sinon.SinonStub).restore();
-  });
-
-  it('Should return user role with status 200', async () => {
-    const response = await chai.request(app).get('/login/validate').set('authorization', token);
+  it('"GET/login/validate" retorne token valido e com status 200', async () => {
+    const response = await chai.request(app).get('/login/validate')
+    .set('authorization', token);
 
     expect(response.body).to.be.deep.equal({ role: simpleUser.role });
     expect(response.status).to.be.equal(200);
