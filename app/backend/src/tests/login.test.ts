@@ -1,5 +1,6 @@
 import * as sinon from 'sinon';
 import * as chai from 'chai';
+import * as Jwt from 'jsonwebtoken';
 // @ts-ignore
 import chaiHttp = require('chai-http');
 import { app } from '../app';
@@ -21,6 +22,18 @@ const validoUser = {
   password: bcrypt.hashSync('Alg-Cost-Salt-Hash'),
 };
 
+const simpleUser = {
+  email: validoUser.email,
+  password: validoUser.password,
+  role: 'user',
+}
+
+const SECRET = process.env.JWT_SECRET as Jwt.Secret;
+
+const token = Jwt.sign(
+  { userEmail: validoUser.email }, SECRET,
+  { algorithm: 'HS256', expiresIn: '3600' },
+);
 
 describe('', () => {
   it('"POST/login" Sem a senha, mensagem de erro com status 400', async () => {
@@ -81,4 +94,19 @@ describe('', () => {
 
 });
 
-    
+describe('When it receives a valid token', () => {
+  beforeEach(() => {
+    sinon.stub(UserModel, 'findOne').resolves(simpleUser as UserModel)
+  });
+
+  afterEach(() => {
+    (UserModel.findOne as sinon.SinonStub).restore();
+  });
+
+  it('Should return user role with status 200', async () => {
+    const response = await chai.request(app).get('/login/validate').set('authorization', token);
+
+    expect(response.body).to.be.deep.equal({ role: simpleUser.role });
+    expect(response.status).to.be.equal(200);
+  });
+});

@@ -5,10 +5,10 @@ import bcrypt from '../helpers/bcrypt';
 import jwt from '../helpers/jwt';
 
 class UserService {
-  private model = UserModel;
+  private modelUser = UserModel;
 
   public async login(email: string, password: string): Promise<IToken | null> {
-    const user = await this.model.findOne({ where: { email }, raw: true }) as IUser;
+    const user = await this.modelUser.findOne({ where: { email }, raw: true }) as IUser;
 
     if (!bcrypt(password, user.password)) return null;
 
@@ -18,7 +18,7 @@ class UserService {
 
   public async validate(data: JwtUser): Promise<string> {
     const { userId } = data;
-    const user = await this.model.findOne({ where: { id: userId }, raw: true }) as IUser;
+    const user = await this.modelUser.findOne({ where: { id: userId }, raw: true }) as IUser;
 
     return user.role;
   }
