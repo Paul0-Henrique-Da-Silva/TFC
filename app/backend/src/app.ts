@@ -2,6 +2,7 @@ import * as express from 'express';
 
 import loginRoute from './database/router/login.router';
 import teamRoute from './database/router/team.router';
+import macthRoute from './database/router/match.router';
 
 class App {
   public app: express.Express;
@@ -16,6 +17,7 @@ class App {
     this.app.use('/login', loginRoute);
     this.app.use('/login/validate', loginRoute);
     this.app.use('/teams', teamRoute);
+    this.app.use('/matches', macthRoute);
   }
 
   private config():void {
