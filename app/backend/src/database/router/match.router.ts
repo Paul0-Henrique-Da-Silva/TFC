@@ -5,6 +5,6 @@ const router:Router = Router();
 
 const matchController = new MatchController();
 
-router.get('/', matchController.getAll);
+router.get('/', matchController.getProgressFilter);
 
 export default router;

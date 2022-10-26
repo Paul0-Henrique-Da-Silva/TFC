@@ -9,7 +9,7 @@ class MatchController {
     return response.status(200).json(data);
   };
 
-  public getMatchesByProgress = async (request: Request, response: Response): Promise<Response> => {
+  public getProgressFilter = async (request: Request, response: Response): Promise<Response> => {
     const { inProgress } = request.query;
     if (inProgress !== 'true' && inProgress !== 'false') {
       return this.getAll(request, response);
