@@ -8,12 +8,12 @@ const SECRET = process.env.JWT_SECRET;
 
 class UserController {
   constructor(
-    private userService = new UserService(),
+    private serviceUser = new UserService(),
   ) {}
 
   public login = async (request: Request, response: Response): Promise<Response> => {
     const { email, password } = request.body;
-    const token = await this.userService.login(email, password);
+    const token = await this.serviceUser.login(email, password);
     return response.status(200).json({ token });
   };
 
@@ -21,7 +21,7 @@ class UserController {
     const { authorization } = request.headers as IAuthorization;
     const auth = authorization.replace('Bearer ', '');
     const verifyToken = Jwt.verify(auth as string, SECRET as string);
-    const role = await this.userService.validate(verifyToken as JwtUser);
+    const role = await this.serviceUser.validate(verifyToken as JwtUser);
     return response.status(200).json({ role });
   };
 }
