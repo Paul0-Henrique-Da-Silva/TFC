@@ -2,7 +2,7 @@ import IMatch from '../interfaces/IMatch';
 import MatchModel from '../models/MatchModel.ts';
 import Team from '../models/TeamsModel';
 
-export default class MatchService {
+class MatchService {
   private modelMacth = MatchModel;
   async getAll(): Promise<IMatch[]> {
     const data = await this.modelMacth.findAll({
@@ -44,3 +44,5 @@ export default class MatchService {
     return data as IMatch;
   }
 }
+
+export default MatchService;
