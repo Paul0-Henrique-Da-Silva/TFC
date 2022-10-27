@@ -23,6 +23,14 @@ class MatchController {
     await this.serviceMatch.finish(id);
     return response.status(200).json({ message: 'Finished' });
   };
+
+  public addNew = async (request: Request, response: Response): Promise<Response> => {
+    const { homeTeam, awayTeam, homeTeamGoals, awayTeamGoals } = request.body;
+    const inProgress = true;
+    const data = await this.serviceMatch
+      .addNew({ homeTeam, awayTeam, homeTeamGoals, awayTeamGoals, inProgress });
+    return response.status(201).json(data);
+  };
 }
 
 export default MatchController;
