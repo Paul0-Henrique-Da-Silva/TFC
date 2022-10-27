@@ -38,4 +38,9 @@ export default class MatchService {
     const data = await match.update(update);
     return data;
   }
+
+  public async addNew(newMatch: object): Promise<IMatch> {
+    const data = await this.modelMacth.create(newMatch);
+    return data as IMatch;
+  }
 }
