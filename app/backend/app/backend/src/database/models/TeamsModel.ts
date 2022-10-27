@@ -5,6 +5,7 @@ class Team extends Model {
   public id!: number;
   public teamName!: string;
 }
+// test
 
 Team.init({
   id: {
