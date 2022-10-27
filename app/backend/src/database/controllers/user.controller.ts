@@ -18,11 +18,15 @@ class UserController {
   };
 
   public validate = async (request: Request, response: Response): Promise<Response> => {
-    const { authorization } = request.headers as IAuthorization;
-    const auth = authorization.replace('Bearer ', '');
-    const verifyToken = Jwt.verify(auth as string, SECRET as string);
-    const role = await this.serviceUser.validate(verifyToken as JwtUser);
-    return response.status(200).json({ role });
+    try {
+      const { authorization } = request.headers as IAuthorization;
+      const auth = authorization.replace('Bearer ', '');
+      const verifyToken = Jwt.verify(auth as string, SECRET as string);
+      const role = await this.serviceUser.validate(verifyToken as JwtUser);
+      return response.status(200).json({ role });
+    } catch (err) {
+      return response.status(401).json({ message: 'Token invalid or expired' });
+    }
   };
 }
 
