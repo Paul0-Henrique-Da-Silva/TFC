@@ -35,7 +35,7 @@ describe('', () => {
     sinon.stub(TeamModel, 'findOne').resolves(teamId as unknown as TeamModel)
   });
 
-  afterEach(() => (TeamModel.findOne as sinon.SinonStub).restore());
+  afterEach(() => {(TeamModel.findOne as sinon.SinonStub).restore()});
 
   it('"GET /teams/:id" retorna param "id" com status 200', async () => {
     const response = await chai.request(app).get('/teams/2');

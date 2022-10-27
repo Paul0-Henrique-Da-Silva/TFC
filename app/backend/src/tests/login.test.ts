@@ -63,7 +63,7 @@ describe('', () => {
   beforeEach(() => {
     sinon.stub(UserModel, 'findOne').resolves(validoUser as UserModel)
   });
-  afterEach(() => (UserModel.findOne as sinon.SinonStub).restore());
+  afterEach(() => {(UserModel.findOne as sinon.SinonStub).restore()});
   
   it('"POST/login" Token JWT com status 200', async () => {
     const response = await chai.request(app)
@@ -81,7 +81,7 @@ describe('', () => {
   beforeEach(() => {
     sinon.stub(UserModel, 'findOne').resolves(null as unknown as UserModel);
   });
-  afterEach(() => (UserModel.findOne as sinon.SinonStub).restore());
+  afterEach(() => { (UserModel.findOne as sinon.SinonStub).restore()});
 
   it('"POST/login", Usuario inválido, mensagem de erro com status 401', async () => {
     const response = await chai.request(app).post('/login')
