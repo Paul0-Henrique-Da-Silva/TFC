@@ -9,9 +9,7 @@ class UserService {
 
   public async login(email: string, password: string): Promise<IToken | null> {
     const user = await this.modelUser.findOne({ where: { email }, raw: true }) as IUser;
-
     if (!bcrypt(password, user.password)) return null;
-
     const token = jwt(user);
     return token as unknown as IToken;
   }
@@ -19,7 +17,6 @@ class UserService {
   public async validate(data: JwtUser): Promise<string> {
     const { userId } = data;
     const user = await this.modelUser.findOne({ where: { id: userId }, raw: true }) as IUser;
-
     return user.role;
   }
 }
