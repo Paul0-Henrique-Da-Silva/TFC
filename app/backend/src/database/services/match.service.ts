@@ -24,7 +24,18 @@ export default class MatchService {
       }],
       where: { inProgress },
     });
-
     return match as IMatch[];
+  }
+
+  public async finish(id: string): Promise<IMatch | null> {
+    const match = await this.modelMacth.findByPk(id);
+    if (!match) return null;
+
+    const update = await this.modelMacth.update(
+      { inProgress: false },
+      { where: { id } },
+    );
+    const data = await match.update(update);
+    return data;
   }
 }
